@@ -207,13 +207,13 @@ resultado_jugada_t juego_jugar_turno(juego_t *juego, jugada_t jugada_jugador1,
 
 	switch (resulta_ataque_jugada1){
 		case ATAQUE_EFECTIVO:
-			juego->jugador.puntaje += ataque1->poder * 3;
+			juego->jugador.puntaje += (int)(ataque1->poder * 3);
 			break;
 		case ATAQUE_INEFECTIVO:
-			juego->jugador.puntaje += ataque1->poder / 2;
+			juego->jugador.puntaje += (int)(ataque1->poder / 2);
 			break;
 		default:
-			juego->jugador.puntaje += ataque1->poder;
+			juego->jugador.puntaje += (int)(ataque1->poder);
 			break;
 	}
 
@@ -265,6 +265,6 @@ void juego_destruir(juego_t *juego)
 		return;
 	}
 
-	pokemon_destruir_todo(juego->info_pokemones);
-	free(juego);
+	// pokemon_destruir_todo(juego->info_pokemones);
+	// free(juego);
 }
