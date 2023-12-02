@@ -18,7 +18,7 @@ struct lista_iterador {
 	lista_t *lista;
 };
 
-lista_t *lista_crear()
+lista_t *lista_crear(void)
 {
 	lista_t *lista = malloc(sizeof(lista_t));
 
@@ -372,3 +372,4 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 
 	return elementos_iterados;
 }
+

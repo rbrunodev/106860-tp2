@@ -36,7 +36,7 @@ void pa2m_nuevo_grupo(const char *descripcion)
 	printf(BLANCO "\n");
 }
 
-int pa2m_mostrar_reporte()
+int pa2m_mostrar_reporte(void)
 {
 	printf("\n---------------------------------\n"
 	       "%i pruebas corridas, %i errores - %s\n" CNORMAL,

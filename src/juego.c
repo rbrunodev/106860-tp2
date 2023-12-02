@@ -30,7 +30,7 @@ struct juego{
 	// JUEGO_ESTADO estado;
 };
 
-juego_t *juego_crear()
+juego_t *juego_crear(void)
 {
 	juego_t *juego = calloc(1, sizeof(juego_t));
 	if (juego == NULL) {
@@ -51,7 +51,7 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 	}
 
 	int cantidad = pokemon_cantidad(info);
-	if(cantidad < 3){
+	if(cantidad <= 3){
 		return POKEMON_INSUFICIENTES;
 	}
 
@@ -265,6 +265,6 @@ void juego_destruir(juego_t *juego)
 		return;
 	}
 
-	pokemon_destruir(juego->info_pokemones);
+	pokemon_destruir_todo(juego->info_pokemones);
 	free(juego);
 }

@@ -6,12 +6,13 @@
 #include "src/juego.h"
 #include "src/lista.h"
 #include "pa2m.h"
+#include <stdlib.h>
 
 #define ARCHIVO_OK "ejemplos/correcto.txt"
 #define ARCHIVO_CORTO "ejemplos/corto.txt"
 #define ARCHIVO_INEXISTENTE "/AsddA/ASD/ASD/ASDasD/ASD/ASD7aSD/ASD/a"
 
-void crear_juego()
+void crear_juego(void)
 {
 	juego_t *j = NULL;
 
@@ -28,7 +29,7 @@ void crear_juego()
 	juego_destruir(j);
 }
 
-void cargar_archivo()
+void cargar_archivo(void)
 {
 	juego_t *j = juego_crear();
 
@@ -50,9 +51,10 @@ void cargar_archivo()
 	juego_destruir(j);
 }
 
-void seleccionar()
+void seleccionar(void)
 {
 	juego_t *j = juego_crear();
+	printf("Antes de cargar");
 	pa2m_afirmar(juego_cargar_pokemon(j, ARCHIVO_OK) == TODO_OK,
 		     "Cargar un archivo existente resulta en TODO_OK");
 	pa2m_afirmar(lista_tamanio(juego_listar_pokemon(j)) == 6,
@@ -76,7 +78,7 @@ void seleccionar()
 	juego_destruir(j);
 }
 
-void jugar()
+void jugar(void)
 {
 	juego_t *j = juego_crear();
 
@@ -93,6 +95,7 @@ void jugar()
 					  "Larvitar") == TODO_OK,
 		"Los pokemon del jugador 2 se pueden seleccionar sin problema");
 
+	printf("Antes de jugar");
 	jugada_t invalida1 = { .pokemon = "Pochita", .ataque = "nada" };
 	jugada_t invalida2 = { .pokemon = "Pikachu", .ataque = "nada" };
 
@@ -107,6 +110,10 @@ void jugar()
 	jugada_t validaj23 = { .pokemon = "Cacnea", .ataque = "Hojas" };
 
 	resultado_jugada_t obtenido;
+
+	printf("Va a funcion");
+	obtenido = juego_jugar_turno(j, invalida1, invalida1);
+	printf("obtenido.jugador1: %d\n", obtenido.jugador1);
 
 	pa2m_afirmar(
 		(obtenido = juego_jugar_turno(j, invalida1, invalida1))
@@ -172,7 +179,7 @@ void jugar()
 	juego_destruir(j);
 }
 
-int main()
+int main(void)
 {
 	pa2m_nuevo_grupo("------------ PRUEBAS DEL TP1 ------------");
 
