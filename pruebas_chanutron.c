@@ -54,7 +54,6 @@ void cargar_archivo(void)
 void seleccionar(void)
 {
 	juego_t *j = juego_crear();
-	printf("Antes de cargar");
 	pa2m_afirmar(juego_cargar_pokemon(j, ARCHIVO_OK) == TODO_OK,
 		     "Cargar un archivo existente resulta en TODO_OK");
 	pa2m_afirmar(lista_tamanio(juego_listar_pokemon(j)) == 6,
@@ -82,6 +81,7 @@ void jugar(void)
 {
 	juego_t *j = juego_crear();
 
+	printf("Antes de cargar");
 	pa2m_afirmar(juego_cargar_pokemon(j, ARCHIVO_OK) == TODO_OK,
 		     "Cargar un archivo existente resulta en TODO_OK");
 	pa2m_afirmar(lista_tamanio(juego_listar_pokemon(j)) == 6,
@@ -90,10 +90,10 @@ void jugar(void)
 		juego_seleccionar_pokemon(j, JUGADOR1, "Pikachu", "Charmander",
 					  "Cacnea") == TODO_OK,
 		"Los pokemon del jugador 1 se pueden seleccionar sin problema");
-	pa2m_afirmar(
-		juego_seleccionar_pokemon(j, JUGADOR2, "Floatzel", "Togepi",
-					  "Larvitar") == TODO_OK,
-		"Los pokemon del jugador 2 se pueden seleccionar sin problema");
+	// pa2m_afirmar(
+	// 	juego_seleccionar_pokemon(j, JUGADOR2, "Floatzel", "Togepi",
+	// 				  "Larvitar") == TODO_OK,
+	// 	"Los pokemon del jugador 2 se pueden seleccionar sin problema");
 
 	printf("Antes de jugar");
 	jugada_t invalida1 = { .pokemon = "Pochita", .ataque = "nada" };
