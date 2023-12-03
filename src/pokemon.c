@@ -18,7 +18,7 @@ struct info_pokemon {
 
 informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 {
-	if (path == NULL) {
+	if (!path) {
 		return NULL;
 	}
 	informacion_pokemon_t *info = calloc(1, sizeof(informacion_pokemon_t)); // calloc inicializa en 0
@@ -58,7 +58,6 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		} else if (strcmp(pokemon_type, "R") == 0) {
 			pokemon->tipo = ROCA;
 		} else {
-			printf("Tipo de Pokémon inválido.\n");
 			fclose(archivo);
 			free(pokemon);
 			free(info);
@@ -71,7 +70,6 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 						    ataque_type,
 						    &pokemon->ataques[i].poder);
 			if (ataques_leidos != 3) {
-				printf("Error al leer los ataques del Pokémon.\n");
 				fclose(archivo);
 				free(pokemon);
 				free(info);
@@ -91,22 +89,20 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			} else if (strcmp(ataque_type, "R") == 0) {
 				pokemon->ataques[i].tipo = ROCA;
 			} else {
-				printf("Tipo de Ataque inválido.\n");
 				free(pokemon);
 				fclose(archivo);
 				return info;
 			}
 		}
 		info->cantidad++;
-		info->pokemones = realloc(info->pokemones,
-					  sizeof(pokemon_t) * info->cantidad);
-		if (!info->pokemones) {
-			printf("Error al reasignar memoria para los Pokémon.\n");
-			free(info);
-			free(pokemon);
-			fclose(archivo);
-			return NULL;
-		}
+		// info->pokemones = realloc(info->pokemones,
+		// 			  sizeof(pokemon_t) * info->cantidad);
+		// if (!info->pokemones) {
+		// 	free(info);
+		// 	free(pokemon);
+		// 	fclose(archivo);
+		// 	return NULL;
+		// }
 		info->pokemones[info->cantidad - 1] = *pokemon;
 	}
 
@@ -154,6 +150,9 @@ enum TIPO pokemon_tipo(pokemon_t *pokemon)
 const struct ataque *pokemon_buscar_ataque(pokemon_t *pokemon,
 					   const char *nombre)
 {
+	if (!pokemon || !nombre)
+		return NULL;
+
 	for (int i = 0; i < 3; i++) {
 		if (strcmp(pokemon->ataques[i].nombre, nombre) == 0) {
 			return &pokemon->ataques[i];
