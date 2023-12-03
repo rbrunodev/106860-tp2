@@ -153,8 +153,6 @@ const struct ataque *pokemon_buscar_ataque(pokemon_t *pokemon,
 {
 	for (int i = 0; i < 3; i++) {
 		if (strcmp(pokemon->ataques[i].nombre, nombre) == 0) {
-			printf("Ataque encontrado: %s\n",
-			       pokemon->ataques[i].nombre);
 			return &pokemon->ataques[i];
 		}
 	}

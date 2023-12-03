@@ -187,12 +187,22 @@ resultado_jugada_t juego_jugar_turno(juego_t *juego, jugada_t jugada_jugador1,
 	}
 
 	pokemon_t *pokemon1 = pokemon_buscar(juego->info_pokemones, jugada_jugador1.pokemon);
-	const struct ataque *ataque1 = pokemon_buscar_ataque(pokemon1, jugada_jugador1.ataque);
+	if(pokemon1 == NULL){
+		resultado.jugador1 = ATAQUE_ERROR;
+		resultado.jugador2 = ATAQUE_ERROR;
+		return resultado;
+	}
 	
 	pokemon_t *pokemon2 = pokemon_buscar(juego->info_pokemones, jugada_jugador2.pokemon);
+	if(pokemon2 == NULL){
+		resultado.jugador1 = ATAQUE_ERROR;
+		resultado.jugador2 = ATAQUE_ERROR;
+		return resultado;
+	}
+	const struct ataque *ataque1 = pokemon_buscar_ataque(pokemon1, jugada_jugador1.ataque);
 	const struct ataque *ataque2 = pokemon_buscar_ataque(pokemon2, jugada_jugador2.ataque);
 
-	if(pokemon1 == NULL || pokemon2 == NULL || ataque1 == NULL || ataque2 == NULL){
+	if(ataque1 == NULL || ataque2 == NULL){
 		resultado.jugador1 = ATAQUE_ERROR;
 		resultado.jugador2 = ATAQUE_ERROR;			
 		return resultado;
