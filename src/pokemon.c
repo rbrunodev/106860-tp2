@@ -145,7 +145,10 @@ const char *pokemon_nombre(pokemon_t *pokemon)
 
 enum TIPO pokemon_tipo(pokemon_t *pokemon)
 {
-	return FUEGO;
+	if (pokemon)
+		return pokemon->tipo;
+	else
+		return NORMAL;
 }
 
 const struct ataque *pokemon_buscar_ataque(pokemon_t *pokemon,
@@ -185,4 +188,9 @@ int con_cada_ataque(pokemon_t *pokemon,
 
 void pokemon_destruir_todo(informacion_pokemon_t *ip)
 {
+	if (!ip)
+		return;
+
+	free(ip->pokemones);
+	free(ip);
 }

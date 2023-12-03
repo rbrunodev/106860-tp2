@@ -276,6 +276,7 @@ void juego_destruir(juego_t *juego)
 		return;
 	}
 
-	lista_destruir_todo(juego->lista_pokemon, pokemon_destruir_todo);
+	pokemon_destruir_todo(juego->info_pokemones);
+	// lista_destruir_todo(juego->lista_pokemon, pokemon_destruir_todo);
 	free(juego);
 }
