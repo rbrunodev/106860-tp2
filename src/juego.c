@@ -26,6 +26,7 @@ struct juego{
 	informacion_pokemon_t *info_pokemones;
 	jugador_t jugador;
 	adversario_t *adversario;
+	lista_t *lista_pokemon;
 	// lista_t *pokemon;
 	// JUEGO_ESTADO estado;
 };
@@ -87,12 +88,12 @@ lista_t *juego_listar_pokemon(juego_t *juego)
 	for(int i = 0; i < iterados; i++){
 		pokemon_t *pokemon = pokemon_buscar(juego->info_pokemones, nombres_pokemones->nombres[i]);
 		if (pokemon != NULL) {
-            lista_insertar(lista, pokemon);
+            juego->lista_pokemon = lista_insertar(lista, pokemon);
         }
     }
 
 	free(nombres_pokemones);
-    return lista;
+    return juego->lista_pokemon;
 }
 
 JUEGO_ESTADO juego_seleccionar_pokemon(juego_t *juego, JUGADOR jugador,
@@ -275,6 +276,6 @@ void juego_destruir(juego_t *juego)
 		return;
 	}
 
-	pokemon_destruir_todo(juego->info_pokemones);
+	lista_destruir_todo(juego->lista_pokemon, pokemon_destruir_todo);
 	free(juego);
 }
