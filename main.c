@@ -194,7 +194,7 @@ bool solicitar_seleccionar_pokemones(void *estado){
 			return false;
 		}
 		nombre_pokemon[strcspn(nombre_pokemon, "\n")] = 0;
-		printf("Gracias. El nombre del pokemon ingresado: '%s'\n", nombre_pokemon);
+		printf("Gracias. El nombre del pokemon ingresado: '%s'\n\n", nombre_pokemon);
 
 
 		if (i == 0) eleccionJugador1 = strdup(nombre_pokemon);
@@ -248,7 +248,6 @@ bool mostrar_ayuda(void *estado){
 	return true;
 }
 
-
 int main(int argc, char *argv[]){
 	juego_t *juego = juego_crear();
 	struct estado_juego estado = { .juego = juego, .salir = false };
@@ -276,7 +275,6 @@ int main(int argc, char *argv[]){
 
 		linea[strlen(linea)-1] = '\0';
 		MENU_RESULTADO menu_resultado = menu_mostrar(menu, linea, &estado);
-
 		if(menu_resultado == MENU_ERROR){
 			printf("Hubo un problema al ejecutar.\n\n");
 		}
@@ -287,7 +285,7 @@ int main(int argc, char *argv[]){
 			printf("Saliendo...\n\n");
 			break;
 		}
-		printf("Ingrese otro comandos para seguir jugando\n");
+		printf("Ingrese otro comando para seguir jugando..\n");
 	}
 
 	menu_destruir(menu);

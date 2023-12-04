@@ -276,3 +276,4 @@ size_t hash_con_cada_clave(hash_t *hash,
 	}
 	return n;
 }
+

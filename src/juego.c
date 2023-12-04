@@ -325,13 +325,17 @@ bool juego_finalizado(juego_t *juego)
 	return juego->finalizado;
 }
 
+void destruir_todo(void *elemento){
+	pokemon_destruir_todo(elemento);
+}
+
 void juego_destruir(juego_t *juego)
 {
 	if(juego == NULL){
 		return;
 	}
 
-	pokemon_destruir_todo(juego->info_pokemones);
-	lista_destruir(juego->lista_pokemon);
+	// pokemon_destruir_todo(juego->info_pokemones);
+	lista_destruir_todo(juego->lista_pokemon, destruir_todo);
 	free(juego);
 }
