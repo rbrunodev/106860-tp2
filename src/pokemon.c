@@ -182,7 +182,17 @@ int con_cada_pokemon(informacion_pokemon_t *ip, void (*f)(pokemon_t *, void *),
 int con_cada_ataque(pokemon_t *pokemon,
 		    void (*f)(const struct ataque *, void *), void *aux)
 {
-	return 0;
+	int cantidad_itinerados = 0;
+
+	if (!pokemon || !f)
+		return cantidad_itinerados;
+
+	for (int i = 0; i < 3; i++) {
+		f(&pokemon->ataques[i], aux);
+		cantidad_itinerados++;
+	}
+
+	return cantidad_itinerados;
 }
 
 void pokemon_destruir_todo(informacion_pokemon_t *ip)
