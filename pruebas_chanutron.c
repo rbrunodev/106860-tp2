@@ -38,9 +38,9 @@ void cargar_archivo(void)
 		     "Cargar un archivo inexistente resulta en ERROR_GENERAL");
 	pa2m_afirmar(lista_tamanio(juego_listar_pokemon(j)) == 0,
 		     "El listado de pokemones es vacío");
-	// pa2m_afirmar(
-	// 	juego_cargar_pokemon(j, ARCHIVO_CORTO) == POKEMON_INSUFICIENTES,
-	// 	"Cargar un archivo con menos pokemon que los necesarios resulta en ERROR_GENERAL");
+	pa2m_afirmar(
+		juego_cargar_pokemon(j, ARCHIVO_CORTO) == POKEMON_INSUFICIENTES,
+		"Cargar un archivo con menos pokemon que los necesarios resulta en ERROR_GENERAL");
 	// pa2m_afirmar(lista_tamanio(juego_listar_pokemon(j)) == 0,
 	// 	     "El listado de pokemones es vacío");
 	// pa2m_afirmar(juego_cargar_pokemon(j, ARCHIVO_OK) == TODO_OK,
