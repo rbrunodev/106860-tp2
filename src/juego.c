@@ -59,6 +59,7 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 	int cantidad = pokemon_cantidad(info);
 	if(cantidad <= 3){
 		free(info);
+		free(juego->info_pokemones);
 		return POKEMON_INSUFICIENTES;
 	}
 

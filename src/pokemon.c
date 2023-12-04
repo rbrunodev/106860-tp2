@@ -114,15 +114,6 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		
 		info->pokemones = aux;
 		info->pokemones[info->cantidad - 1] = *pokemon;
-		// info->pokemones = realloc(info->pokemones,
-		// 			  sizeof(pokemon_t) * info->cantidad);
-		// if (!info->pokemones) {
-		// 	free(info);
-		// 	free(pokemon);
-		// 	fclose(archivo);
-		// 	return NULL;
-		// }
-		// info->pokemones[info->cantidad - 1] = *pokemon;
 	}
 
 	free(pokemon);
