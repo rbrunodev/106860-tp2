@@ -49,7 +49,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			fclose(archivo);
 			free(pokemon);
 			free(info);
-			continue;
+			return NULL;
 		}
 		//optimizar
 		if (strcmp(pokemon_type, "F") == 0) {
@@ -65,8 +65,9 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		} else if (strcmp(pokemon_type, "R") == 0) {
 			pokemon->tipo = ROCA;
 		} else {
-			free(info);
 			free(pokemon);
+			free(info->pokemones);
+			free(info);
 			fclose(archivo);
 			return NULL;
 		}
@@ -77,9 +78,10 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 						    ataque_type,
 						    &pokemon->ataques[i].poder);
 			if (ataques_leidos != 3) {
-				free(info);
 				free(pokemon);
 				fclose(archivo);
+				free(info->pokemones);
+				free(info);
 				return NULL;
 			}
 			//optimizar
