@@ -256,13 +256,11 @@ resultado_jugada_t juego_jugar_turno(juego_t *juego, jugada_t jugada_jugador1,
 		return resultado;
 	}
 
-	//validar que un ataque pueda ser usado una sola vez
 	if(ataque_utilizado(&juego->jugador, ataque1)){
 		resultado.jugador1 = ATAQUE_ERROR;
 		resultado.jugador2 = ATAQUE_ERROR;			
 		return resultado;
 	}
-	//
 
 	RESULTADO_ATAQUE resulta_ataque_jugada1 = efectividad_ataque(ataque1, pokemon2);
 	RESULTADO_ATAQUE resulta_ataque_jugada2 = efectividad_ataque(ataque2, pokemon1);
@@ -342,5 +340,6 @@ void juego_destruir(juego_t *juego)
 
 	pokemon_destruir_todo(juego->info_pokemones);
 	lista_destruir(juego->lista_pokemon);
+	// adversario_destruir(juego->adversario);
 	free(juego);
 }

@@ -21,10 +21,12 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 	if (!path) {
 		return NULL;
 	}
-	informacion_pokemon_t *info = calloc(1, sizeof(informacion_pokemon_t));
+	informacion_pokemon_t *info = malloc(sizeof(informacion_pokemon_t));
 	if (!info) {
 		return NULL;
 	}
+	info->cantidad = 0;
+	info->pokemones = NULL;
 
 	FILE *archivo = fopen(path, "r");
 	if (!archivo) {
@@ -109,9 +111,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			fclose(archivo);
 			return NULL;
 		}
-		info->pokemones = aux;
-		info->pokemones[info->cantidad - 1] = *pokemon;
-		free(aux);
+		
 		// info->pokemones = realloc(info->pokemones,
 		// 			  sizeof(pokemon_t) * info->cantidad);
 		// if (!info->pokemones) {
@@ -122,6 +122,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		// }
 		// info->pokemones[info->cantidad - 1] = *pokemon;
 	}
+
 	free(pokemon);
 	fclose(archivo);
 	return info;
