@@ -21,7 +21,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 	if (!path) {
 		return NULL;
 	}
-	informacion_pokemon_t *info = calloc(1, sizeof(informacion_pokemon_t)); // calloc inicializa en 0
+	informacion_pokemon_t *info = calloc(1, sizeof(informacion_pokemon_t));
 	if (!info) {
 		return NULL;
 	}
@@ -99,6 +99,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		info->cantidad++;
 		pokemon_t *aux = realloc(info->pokemones, sizeof(pokemon_t) * info->cantidad);
 		if (!aux) {
+			free(info->pokemones);
 			free(info);
 			free(pokemon);
 			fclose(archivo);
