@@ -48,6 +48,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		if (linea_pokemon != 2) {
 			fclose(archivo);
 			free(pokemon);
+			free(info->pokemones);
 			free(info);
 			return NULL;
 		}
