@@ -95,7 +95,6 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			}
 		}
 
-		
 		info->cantidad++;
 		pokemon_t *aux = realloc(info->pokemones, sizeof(pokemon_t) * info->cantidad);
 		if (!aux) {
