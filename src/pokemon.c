@@ -34,7 +34,12 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		return NULL;
 	}
 
-	pokemon_t *pokemon;
+	pokemon_t *pokemon = malloc(sizeof(pokemon_t));
+	if (!pokemon) {
+		free(info);
+		fclose(archivo);
+		return NULL;
+	}
 
 	while (!feof(archivo)) {
 		char pokemon_type[20];
