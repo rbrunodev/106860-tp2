@@ -326,7 +326,7 @@ bool juego_finalizado(juego_t *juego)
 }
 
 void destruir_todo(void *elemento){
-	pokemon_destruir_todo(elemento);
+	// pokemon_destruir_todo(elemento);
 }
 
 void juego_destruir(juego_t *juego)
