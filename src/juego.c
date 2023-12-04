@@ -51,19 +51,16 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 
 	informacion_pokemon_t *info = pokemon_cargar_archivo(archivo);
 	if(info == NULL){ 
-		free(info);
-		free(juego->info_pokemones);
 		return ERROR_GENERAL;
 	}
 
 	int cantidad = pokemon_cantidad(info);
 	if(cantidad <= 3){
-		free(info);
-		free(juego->info_pokemones);
 		return POKEMON_INSUFICIENTES;
 	}
 
 	juego->info_pokemones = info;
+	free(info);
 	return TODO_OK;
 }
 
