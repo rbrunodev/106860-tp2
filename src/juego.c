@@ -56,6 +56,7 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 
 	int cantidad = pokemon_cantidad(info);
 	if(cantidad <= 3){
+		pokemon_destruir_todo(info);
 		return POKEMON_INSUFICIENTES;
 	}
 
