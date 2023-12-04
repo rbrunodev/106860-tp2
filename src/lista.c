@@ -372,4 +372,3 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 
 	return elementos_iterados;
 }
-

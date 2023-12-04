@@ -92,5 +92,3 @@ size_t hash_con_cada_clave(hash_t *hash,
 			   void *aux);
 
 #endif /* __HASH_H__ */
-
-

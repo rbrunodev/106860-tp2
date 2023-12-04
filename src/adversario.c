@@ -20,7 +20,6 @@ struct adversario {
 	struct ataque *vector_ataques[9];
 };
 
-
 adversario_t *adversario_crear(lista_t *pokemon)
 {
 	adversario_t *adversario = calloc(1, sizeof(adversario_t));
@@ -34,37 +33,41 @@ adversario_t *adversario_crear(lista_t *pokemon)
 bool adversario_seleccionar_pokemon(adversario_t *adversario, char **nombre1,
 				    char **nombre2, char **nombre3)
 {
-	if(adversario == NULL){
+	if (adversario == NULL) {
 		return false;
 	}
 
-	srand((unsigned int)time(NULL));	
+	srand((unsigned int)time(NULL));
 
-	size_t lista_tamano = lista_tamanio(adversario->lista_pokemones_cargados);
-    if (lista_tamano < 3) {
-        return false;
-    }
+	size_t lista_tamano =
+		lista_tamanio(adversario->lista_pokemones_cargados);
+	if (lista_tamano < 3) {
+		return false;
+	}
 
 	size_t pos1, pos2, pos3;
-    pos1 = (size_t)rand() % lista_tamano;
+	pos1 = (size_t)rand() % lista_tamano;
 	do {
-        pos2 = (size_t)rand() % lista_tamano;
-    } while (pos2 == pos1);
+		pos2 = (size_t)rand() % lista_tamano;
+	} while (pos2 == pos1);
 
-    do {
-        pos3 = (size_t)rand() % lista_tamano;
-    } while (pos3 == pos1 || pos3 == pos2);
+	do {
+		pos3 = (size_t)rand() % lista_tamano;
+	} while (pos3 == pos1 || pos3 == pos2);
 
-	adversario->pokemon1 = lista_elemento_en_posicion(adversario->lista_pokemones_cargados, pos1);
-	adversario->pokemon2 = lista_elemento_en_posicion(adversario->lista_pokemones_cargados, pos2);
-	pokemon_t *pokemon3 = lista_elemento_en_posicion(adversario->lista_pokemones_cargados, pos3);
+	adversario->pokemon1 = lista_elemento_en_posicion(
+		adversario->lista_pokemones_cargados, pos1);
+	adversario->pokemon2 = lista_elemento_en_posicion(
+		adversario->lista_pokemones_cargados, pos2);
+	pokemon_t *pokemon3 = lista_elemento_en_posicion(
+		adversario->lista_pokemones_cargados, pos3);
 
-	if(adversario->pokemon1 == NULL || adversario->pokemon2 == NULL){
+	if (adversario->pokemon1 == NULL || adversario->pokemon2 == NULL) {
 		return false;
 	}
 
 	const char *tmp_nombre1 = pokemon_nombre(adversario->pokemon1);
-    const char *tmp_nombre2 = pokemon_nombre(adversario->pokemon2);
+	const char *tmp_nombre2 = pokemon_nombre(adversario->pokemon2);
 	const char *tmp_nombre3 = pokemon_nombre(pokemon3);
 
 	*nombre1 = malloc(sizeof(char) * (strlen(tmp_nombre1) + 1));
@@ -87,7 +90,7 @@ bool adversario_seleccionar_pokemon(adversario_t *adversario, char **nombre1,
 bool adversario_pokemon_seleccionado(adversario_t *adversario, char *nombre1,
 				     char *nombre2, char *nombre3)
 {
-	if(adversario == NULL){
+	if (adversario == NULL) {
 		return false;
 	}
 
@@ -98,7 +101,7 @@ bool adversario_pokemon_seleccionado(adversario_t *adversario, char *nombre1,
 jugada_t adversario_proxima_jugada(adversario_t *adversario)
 {
 	jugada_t j = { .ataque = "", .pokemon = "" };
-	if(adversario == NULL){
+	if (adversario == NULL) {
 		return j;
 	}
 

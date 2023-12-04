@@ -43,8 +43,8 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 
 	while (!feof(archivo)) {
 		char pokemon_type[20];
-		int linea_pokemon = fscanf(archivo, "%[^;];%[^\n]\n", pokemon->nombre,
-				    pokemon_type);
+		int linea_pokemon = fscanf(archivo, "%[^;];%[^\n]\n",
+					   pokemon->nombre, pokemon_type);
 		if (linea_pokemon != 2) {
 			fclose(archivo);
 			free(pokemon);
@@ -108,7 +108,8 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		}
 
 		info->cantidad++;
-		pokemon_t *aux = realloc(info->pokemones, sizeof(pokemon_t) * info->cantidad);
+		pokemon_t *aux = realloc(info->pokemones,
+					 sizeof(pokemon_t) * info->cantidad);
 		if (!aux) {
 			free(info->pokemones);
 			free(info);
@@ -117,7 +118,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			fclose(archivo);
 			return NULL;
 		}
-		
+
 		info->pokemones = aux;
 		info->pokemones[info->cantidad - 1] = *pokemon;
 	}
@@ -176,7 +177,6 @@ const struct ataque *pokemon_buscar_ataque(pokemon_t *pokemon,
 
 	return NULL;
 }
-
 
 int con_cada_pokemon(informacion_pokemon_t *ip, void (*f)(pokemon_t *, void *),
 		     void *aux)
