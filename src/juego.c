@@ -88,6 +88,7 @@ lista_t *juego_listar_pokemon(juego_t *juego)
 	int iterados = con_cada_pokemon(juego->info_pokemones, obtener_nombre_pokemon, nombres_pokemones);
 	if(iterados == 0){
 		free(lista);
+		free(nombres_pokemones);
 		return NULL;
 	}
 
