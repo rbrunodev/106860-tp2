@@ -52,6 +52,7 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 	informacion_pokemon_t *info = pokemon_cargar_archivo(archivo);
 	if(info == NULL){ 
 		free(info);
+		free(juego);
 		return ERROR_GENERAL;
 	}
 
