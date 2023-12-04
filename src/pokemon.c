@@ -58,9 +58,9 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		} else if (strcmp(pokemon_type, "R") == 0) {
 			pokemon->tipo = ROCA;
 		} else {
-			fclose(archivo);
-			free(pokemon);
 			free(info);
+			free(pokemon);
+			fclose(archivo);
 			return NULL;
 		}
 		for (int i = 0; i < 3; i++) {
@@ -70,9 +70,9 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 						    ataque_type,
 						    &pokemon->ataques[i].poder);
 			if (ataques_leidos != 3) {
-				fclose(archivo);
-				free(pokemon);
 				free(info);
+				free(pokemon);
+				fclose(archivo);
 				return NULL;
 			}
 			//optimizar
@@ -94,20 +94,31 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 				return info;
 			}
 		}
+
+		
 		info->cantidad++;
-		info->pokemones = realloc(info->pokemones,
-					  sizeof(pokemon_t) * info->cantidad);
-		if (!info->pokemones) {
+		pokemon_t *aux = realloc(info->pokemones, sizeof(pokemon_t) * info->cantidad);
+		if (!aux) {
 			free(info);
 			free(pokemon);
 			fclose(archivo);
 			return NULL;
+		} else {
+			info->pokemones = aux;
+			info->pokemones[info->cantidad - 1] = *pokemon;
 		}
-		info->pokemones[info->cantidad - 1] = *pokemon;
+		// info->pokemones = realloc(info->pokemones,
+		// 			  sizeof(pokemon_t) * info->cantidad);
+		// if (!info->pokemones) {
+		// 	free(info);
+		// 	free(pokemon);
+		// 	fclose(archivo);
+		// 	return NULL;
+		// }
+		// info->pokemones[info->cantidad - 1] = *pokemon;
 	}
 
 	free(pokemon);
-	// ordenar_pokemones(info);
 	fclose(archivo);
 	return info;
 }
