@@ -60,7 +60,6 @@ JUEGO_ESTADO juego_cargar_pokemon(juego_t *juego, char *archivo)
 	}
 
 	juego->info_pokemones = info;
-	free(info);
 	return TODO_OK;
 }
 
