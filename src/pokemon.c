@@ -38,7 +38,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		fclose(archivo);
 		return NULL;
 	}
-	
+
 	while (!feof(archivo)) {
 		char pokemon_type[20];
 		int linea_pokemon = fscanf(archivo, "%[^;];%[^\n]\n", pokemon->nombre,
@@ -108,10 +108,10 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			free(pokemon);
 			fclose(archivo);
 			return NULL;
-		} else {
-			info->pokemones = aux;
-			info->pokemones[info->cantidad - 1] = *pokemon;
 		}
+		info->pokemones = aux;
+		info->pokemones[info->cantidad - 1] = *pokemon;
+		free(aux);
 		// info->pokemones = realloc(info->pokemones,
 		// 			  sizeof(pokemon_t) * info->cantidad);
 		// if (!info->pokemones) {
@@ -122,7 +122,6 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		// }
 		// info->pokemones[info->cantidad - 1] = *pokemon;
 	}
-
 	free(pokemon);
 	fclose(archivo);
 	return info;
