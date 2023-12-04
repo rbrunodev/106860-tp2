@@ -21,13 +21,12 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 	if (!path) {
 		return NULL;
 	}
-	// informacion_pokemon_t *info = malloc(sizeof(informacion_pokemon_t));
-	informacion_pokemon_t *info = calloc(1, sizeof(informacion_pokemon_t));
+	informacion_pokemon_t *info = malloc(sizeof(informacion_pokemon_t));
 	if (!info) {
 		return NULL;
 	}
-	// info->cantidad = 0;
-	// info->pokemones = NULL;
+	info->cantidad = 0;
+	info->pokemones = NULL;
 
 	FILE *archivo = fopen(path, "r");
 	if (!archivo) {
@@ -43,7 +42,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 				    pokemon_type);
 		if (linea_pokemon != 2) {
 			fclose(archivo);
-			// free(pokemon);
+			free(pokemon);
 			free(info->pokemones);
 			free(info);
 			return NULL;
@@ -62,7 +61,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		} else if (strcmp(pokemon_type, "R") == 0) {
 			pokemon->tipo = ROCA;
 		} else {
-			// free(pokemon);
+			free(pokemon);
 			free(info->pokemones);
 			free(info);
 			fclose(archivo);
@@ -75,7 +74,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 						    ataque_type,
 						    &pokemon->ataques[i].poder);
 			if (ataques_leidos != 3) {
-				// free(pokemon);
+				free(pokemon);
 				fclose(archivo);
 				free(info->pokemones);
 				free(info);
@@ -95,7 +94,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 			} else if (strcmp(ataque_type, "R") == 0) {
 				pokemon->ataques[i].tipo = ROCA;
 			} else {
-				// free(pokemon);
+				free(pokemon);
 				fclose(archivo);
 				free(info->pokemones);
 				free(info);
@@ -108,7 +107,8 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		if (!aux) {
 			free(info->pokemones);
 			free(info);
-			// free(pokemon);
+			free(pokemon);
+			free(aux);
 			fclose(archivo);
 			return NULL;
 		}
@@ -117,7 +117,7 @@ informacion_pokemon_t *pokemon_cargar_archivo(const char *path)
 		info->pokemones[info->cantidad - 1] = *pokemon;
 	}
 
-	// free(pokemon);
+	free(pokemon);
 	fclose(archivo);
 	return info;
 }
