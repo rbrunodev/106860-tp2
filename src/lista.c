@@ -258,7 +258,7 @@ bool lista_vacia(lista_t *lista)
 
 void lista_destruir(lista_t *lista)
 {
-	if (lista == NULL) {
+	if (!lista) {
 		return;
 	}
 

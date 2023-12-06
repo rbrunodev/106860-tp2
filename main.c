@@ -11,100 +11,13 @@
 #define MAX_RUTA_LONGITUD 100
 
 struct estado_juego {
+	int rondas;
 	juego_t *juego;
 	menu_t *menu;
+	adversario_t *adversario;
 	bool salir;
 };
 
-/**
-* Este main debe ser modificado para que el usuario pueda jugar el juego. Las
-* instrucciones existentes son solamente a modo ilustrativo del funcionamiento
-* muy alto nivel del juego.
-*
-* Las interacciones deben realizarse por entrada/salida estandar y estar validadas.
-*
-* Se aconseja en todo momento mostrar información relevante para el jugador (por
-* ejemplo, mostrar puntaje actual y movimientos disponibles) para hacer que el
-* juego sea facil de utilizar.
-*/
-
-jugada_t jugador_pedir_nombre_y_ataque()
-{
-	jugada_t jugada;
-	char nombre[20] = "Pikachu";
-	char ataque[20] = "Latigo";
-	strcpy(jugada.pokemon, nombre);
-	strcpy(jugada.ataque, ataque);
-	return jugada;
-}
-
-// int main(int argc, char *argv[])
-// {
-
-// 	// informacion_pokemon_t *info = pokemon_cargar_archivo("ejemplos/corto.txt");
-
-// 	juego_t *juego = juego_crear();
-
-// 	// //Pide al usuario un nombre de archivo de pokemones
-// 	// char *archivo = pedir_archivo();
-
-// 	// //Carga los pokemon
-// 	JUEGO_ESTADO estado= juego_cargar_pokemon(juego, "ejemplos/correcto.txt");
-
-// 	lista_t *lista = juego_listar_pokemon(juego);
-
-// 	// //Crea un adversario que será utilizado como jugador 2
-// 	adversario_t *adversario =
-// 		adversario_crear(juego_listar_pokemon(juego));
-
-// 	// //Mostrar el listado de pokemones por consola para que el usuario sepa las opciones que tiene
-// 	// mostrar_pokemon_disponibles(juego);
-
-// 	// //Pedirle al jugador por consola que ingrese los 3 nombres de pokemon que quiere utilizar
-// 	const char *eleccionJugador1, *eleccionJugador2, *eleccionJugador3;
-// 	juego_seleccionar_pokemon(juego, &eleccionJugador1,
-// 				    &eleccionJugador2,
-// 				    &eleccionJugador3);
-
-// 	JUEGO_ESTADO estado_2 = juego_seleccionar_pokemon(juego, 0, "Pikachu", "Charmander", "Larvitar");
-// 	printf("Estado seleccionar pokemon%d\n", estado_2);
-// 	// //pedirle al adversario que indique los 3 pokemon que quiere usar
-// 	char *eleccionAdversario1, *eleccionAdversario2, *eleccionAdversario3;
-// 	bool seleccion = adversario_seleccionar_pokemon(adversario, &eleccionAdversario1,
-// 				       &eleccionAdversario2,
-// 				       &eleccionAdversario3);
-
-// 	// //Seleccionar los pokemon de los jugadores
-// 	// juego_seleccionar_pokemon(juego, JUGADOR1, eleccionJugador1,
-// 	// 			  eleccionJugador2, eleccionJugador3);
-// 	// juego_seleccionar_pokemon(juego, JUGADOR2, eleccionAdversario1,
-// 	// 			  eleccionAdversario2, eleccionAdversario3);
-
-// 	// //informarle al adversario cuales son los pokemon del jugador
-// 	adversario_pokemon_seleccionado(adversario, eleccionJugador1,
-// 					eleccionJugador2, eleccionJugador3);
-
-// 	// while (!juego_finalizado(juego)) {
-// 		resultado_jugada_t resultado_ronda;
-
-// 	// 	//Pide al jugador que ingrese por consola el pokemon y ataque para la siguiente ronda
-// 		jugada_t jugada_jugador = jugador_pedir_nombre_y_ataque();
-
-// 	// 	//Pide al adversario que informe el pokemon y ataque para la siguiente ronda
-// 		// jugada_t jugada_adversario =
-// 		// 	adversario_proxima_jugada(adversario);
-// 		jugada_t jugada_adversario = jugador_pedir_nombre_y_ataque();
-
-// 	// 	//jugar la ronda y después comprobar que esté todo ok, si no, volver a pedir la jugada del jugador
-// 		resultado_ronda = juego_jugar_turno(juego, jugada_jugador,
-// 						    jugada_adversario);
-
-// 	// 	//Si se pudo jugar el turno, le informo al adversario la jugada realizada por el jugador
-// 	// 	adversario_informar_jugada(adversario, jugada_jugador);
-// 	// }
-
-// 	// juego_destruir(juego);
-// }
 
 bool solicitar_archivo(void *estado)
 {
@@ -113,7 +26,7 @@ bool solicitar_archivo(void *estado)
 
 	printf("Por favor, ingrese la ruta del archivo: ");
 
-	if (fgets(ruta_archivo, MAX_RUTA_LONGITUD, stdin) == NULL) {
+	if (!fgets(ruta_archivo, MAX_RUTA_LONGITUD, stdin)) {
 		printf("Error al leer la ruta del archivo.\n");
 		return false;
 	}
@@ -156,6 +69,8 @@ const char *mostrar_tipo_ataque(enum TIPO tipo)
 		return "Electrico";
 	case ROCA:
 		return "Roca";
+	case PLANTA:
+		return "Planta";
 	default:
 		return "Desconocido";
 	}
@@ -194,7 +109,7 @@ bool solicitar_seleccionar_pokemones(void *estado)
 	for (int i = 0; i < 3; i++) {
 		printf("Por favor, ingrese el nombre del pokemon %d: ", i + 1);
 		char nombre_pokemon[20];
-		if (fgets(nombre_pokemon, 20, stdin) == NULL) {
+		if (!fgets(nombre_pokemon, 20, stdin)) {
 			printf("Error al leer el nombre del pokemon.\n");
 			return false;
 		}
@@ -210,16 +125,32 @@ bool solicitar_seleccionar_pokemones(void *estado)
 			eleccionJugador3 = strdup(nombre_pokemon);
 	}
 
+	adversario_t *adversario =
+		adversario_crear(juego_listar_pokemon(estado_juego->juego));
+	if (!adversario) {
+		return false;
+	}
+	estado_juego->adversario = adversario;
+
+	char *eleccionAdversario1, *eleccionAdversario2, *eleccionAdversario3;
+	adversario_seleccionar_pokemon(adversario, &eleccionAdversario1,
+				       &eleccionAdversario2,
+				       &eleccionAdversario3);
+
 	JUEGO_ESTADO juego_estado = juego_seleccionar_pokemon(
 		estado_juego->juego, JUGADOR1, eleccionJugador1,
-		eleccionJugador2, eleccionJugador3);
+		eleccionJugador2, eleccionAdversario3);
+
+	juego_seleccionar_pokemon(estado_juego->juego, JUGADOR2,
+				  eleccionAdversario1, eleccionAdversario2,
+				  eleccionJugador3);
 
 	switch (juego_estado) {
 	case POKEMON_INEXISTENTE:
 		printf("Un pokemon ingresado no existe. Intente seleccionar nuevamente.\n\n");
 		break;
 	case POKEMON_REPETIDO:
-		printf("No pude seleccionar pokemones repetidos.\n\n");
+		printf("No puede seleccionar pokemones repetidos.\n\n");
 		break;
 	case TODO_OK:
 		printf("Pokemones seleccionados correctamente.\n");
@@ -236,14 +167,121 @@ bool solicitar_seleccionar_pokemones(void *estado)
 		break;
 	}
 
+	adversario_pokemon_seleccionado(adversario, eleccionJugador1,
+					eleccionJugador2, eleccionJugador3);
+
 	free(eleccionJugador1);
 	free(eleccionJugador2);
 	free(eleccionJugador3);
 	return true;
 }
 
+int comparador(void *p1, void *nombre)
+{
+	pokemon_t *pokemon = p1;
+	return strcmp(pokemon_nombre(pokemon), (char *)nombre);
+}
+
+jugada_t solicitar_jugada(juego_t *juego)
+{
+	jugada_t jugada;
+
+	printf("Por favor, ingrese nombre y ataque del pokemon con el que va a jugar. \n");
+	printf("NOMBRE: ");
+
+	char nombre_pokemon[20];
+	if (!fgets(nombre_pokemon, 20, stdin)) {
+		printf("Error al leer el nombre del pokemon.\n");
+		return jugada;
+	}
+	nombre_pokemon[strcspn(nombre_pokemon, "\n")] = 0;
+
+	lista_t *lista = juego_listar_pokemon(juego);
+
+	pokemon_t *pokemon =
+		lista_buscar_elemento(lista, comparador, nombre_pokemon);
+	if (!pokemon) {
+		printf("El pokemon ingresado no existe. Vuelva a intentarlo\n");
+		return jugada;
+	}
+	printf("ATAQUE: ");
+
+	char nombre_ataque[20];
+	if (!fgets(nombre_ataque, 20, stdin)) {
+		printf("Error al leer el nombre del ataque.\n");
+		return jugada;
+	}
+
+	nombre_ataque[strcspn(nombre_ataque, "\n")] = 0;
+	const struct ataque *ataque =
+		pokemon_buscar_ataque(pokemon, nombre_ataque);
+	if (!ataque) {
+		printf("El ataque ingresado no existe para ese pokemon. Vuelva a intentarlo\n");
+		return jugada;
+	}
+
+	printf("Su ronda es: %s ; %s\n", nombre_pokemon, nombre_ataque);
+
+	strcpy(jugada.pokemon, nombre_pokemon);
+	strcpy(jugada.ataque, nombre_ataque);
+	return jugada;
+}
+
 bool solicitar_jugar(void *estado)
 {
+	printf("Comenzando el juego...\n");
+	struct estado_juego *estado_juego = estado;
+
+	while (!juego_finalizado(estado_juego->juego)) {
+		printf("\nRonda: %d\n", estado_juego->rondas + 1);
+		jugada_t jugada_jugador_1 =
+			solicitar_jugada(estado_juego->juego);
+		if (jugada_jugador_1.pokemon[0] == '\0' ||
+		    jugada_jugador_1.ataque[0] == '\0') {
+			printf("Hubo un error al leer la jugada. Vuelva a intentarlo\n");
+			continue;
+		}
+		jugada_t jugada_juagador_2 =
+			adversario_proxima_jugada(estado_juego->adversario);
+		if (jugada_juagador_2.pokemon[0] == '\0' ||
+		    jugada_juagador_2.ataque[0] == '\0') {
+			printf("Hubo un error al leer la jugada. Vuelva a intentarlo\n");
+			continue;
+		}
+		resultado_jugada_t resultado_ronda =
+			juego_jugar_turno(estado_juego->juego, jugada_jugador_1,
+					  jugada_juagador_2);
+
+		if (resultado_ronda.jugador1 == ATAQUE_ERROR ||
+		    resultado_ronda.jugador2 == ATAQUE_ERROR) {
+			printf("Hubo un error al jugar la ronda. Vuelva a intentarlo\n");
+			continue;
+		}
+		estado_juego->rondas++;
+
+		printf("RONDA: %d CONCLUIDA", estado_juego->rondas);
+		printf("JUGADOR: %d PUNTOS === ADVERSARIO: %d PUNTOS \n",
+		       juego_obtener_puntaje(estado_juego->juego, JUGADOR1),
+		       juego_obtener_puntaje(estado_juego->juego, JUGADOR2));
+	}
+
+	int puntaje_jugador_1 =
+		juego_obtener_puntaje(estado_juego->juego, JUGADOR1);
+	int puntaje_jugador_2 =
+		juego_obtener_puntaje(estado_juego->juego, JUGADOR2);
+
+	if (puntaje_jugador_1 > puntaje_jugador_2) {
+		printf("HAS GANADO! Sumaste %d puntos!\n", puntaje_jugador_1);
+
+	} else if (puntaje_jugador_1 < puntaje_jugador_2) {
+		printf("GAME OVER! El ganador fue jugador 2 con %d puntos\n",
+		       puntaje_jugador_2);
+	} else {
+		printf("Empate\n");
+	}
+
+	printf("Juego terminado!\n");
+	estado_juego->salir = true;
 	return true;
 }
 
@@ -281,12 +319,12 @@ int main(int argc, char *argv[])
 	printf("Bienvenido a Pokemon Go!\n");
 	printf("Ingrese comandos para jugar, ingrese 'H' para ver la ayuda\n");
 
-	while (!estado.salir) {
+	while (!juego_finalizado(estado.juego) || !estado.salir) {
 		printf("TP2> ");
 
 		char linea[100];
 		char *leido = fgets(linea, 100, stdin);
-		if (leido == NULL) {
+		if (!leido) {
 			continue;
 		}
 
@@ -306,5 +344,10 @@ int main(int argc, char *argv[])
 		printf("Ingrese otro comando para seguir jugando..\n");
 	}
 
-	menu_destruir(menu);
+	printf("\n Gracias por jugar!\n");
+
+	adversario_destruir(estado.adversario);
+	juego_destruir(estado.juego);
+	menu_destruir(estado.menu);
+	return 0;
 }
