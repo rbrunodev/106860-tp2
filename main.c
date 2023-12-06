@@ -18,7 +18,6 @@ struct estado_juego {
 	bool salir;
 };
 
-
 bool solicitar_archivo(void *estado)
 {
 	struct estado_juego *estado_juego = estado;

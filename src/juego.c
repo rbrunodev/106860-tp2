@@ -118,8 +118,7 @@ JUEGO_ESTADO juego_seleccionar_pokemon(juego_t *juego, JUGADOR jugador,
 		return ERROR_GENERAL;
 	}
 
-	if (strcmp(nombre1, nombre2) == 0 ||
-	    strcmp(nombre1, nombre3) == 0 ||
+	if (strcmp(nombre1, nombre2) == 0 || strcmp(nombre1, nombre3) == 0 ||
 	    strcmp(nombre2, nombre3) == 0) {
 		return POKEMON_REPETIDO;
 	}
