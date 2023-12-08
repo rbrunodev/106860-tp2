@@ -4,18 +4,18 @@
 
 # TP2
 
-## Repositorio de (Nombre Apellido) - (Padrón) - (Mail)
+## Repositorio de Renata Bruno  - 106860 - rbruno@fi.uba.ar
 
 - Para compilar:
 
 ```bash
-línea de compilación
+gcc main.c src/pokemon.c src/juego.c src/adversario.c src/lista.c src/menu.c src/hash.c -o mi_programa
 ```
 
 - Para ejecutar:
 
 ```bash
-línea de ejecución
+./mi_programa
 ```
 
 - Para ejecutar con valgrind:
@@ -57,4 +57,8 @@ vector_original = vector;
 ---
 
 ## Respuestas a las preguntas teóricas
-Incluír acá las respuestas a las preguntas del enunciado (si aplica).
+Para la logica del juego implemente el TDA de lista, ya que me parecio que era la estructura mas adecuada para el juego, ya que se necesita una estructura que permita agregar y eliminar elementos de forma eficiente, y que permita recorrerla de forma secuencial. Ademas implemente el TDA de pokemon para guardar y manejar la informacion de los pokemones de la manera que en ese TDA se utiliza. Las operaciones de ambos TDA me permitian realizar lo que necesita para darle el correcto funcionamiento al juego. Incorporar la lista me permitio iterar sobre cada elemento de ella y poder implementar las funciones del TDA del pokemon, para por ejemplo devolverlo un pokemon en base a su nombre, o devolver un ataque en base a su nombre.
+
+Para la logica del adversario tambienn implemente el TDA de lista y utilice el de hash, practicamente de la misma forma, porque las operaciones alli implementadas me permitian realizar lo que necesitaba para el correcto funcionamiento del juego. 
+
+Fuera del juego y el adversario, para el menu implemente el tda de hash, ya que maneje cada opcion del menu como una clave y cada funcion como un valor. Esto me permitio poder acceder a cada funcion de forma eficiente, y poder agregar y eliminar opciones del menu de forma eficiente, y llamar a cada funcion que el usuario eligio de forma rapida.
