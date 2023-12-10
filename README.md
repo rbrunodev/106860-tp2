@@ -20,7 +20,10 @@ gcc main.c src/pokemon.c src/juego.c src/adversario.c src/lista.c src/menu.c src
 
 - Para ejecutar con valgrind:
 ```bash
-línea con valgrind
+compilo: gcc -o pruebas_alumno pruebas_alumno.c
+ejecuto: ./pruebas_alumno 
+
+valgrind ./pruebas_alumno 
 ```
 
 ---
