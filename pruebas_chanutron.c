@@ -6,12 +6,13 @@
 #include "src/juego.h"
 #include "src/lista.h"
 #include "pa2m.h"
+#include <stdlib.h>
 
 #define ARCHIVO_OK "ejemplos/correcto.txt"
 #define ARCHIVO_CORTO "ejemplos/corto.txt"
 #define ARCHIVO_INEXISTENTE "/AsddA/ASD/ASD/ASDasD/ASD/ASD7aSD/ASD/a"
 
-void crear_juego()
+void crear_juego(void)
 {
 	juego_t *j = NULL;
 
@@ -28,7 +29,7 @@ void crear_juego()
 	juego_destruir(j);
 }
 
-void cargar_archivo()
+void cargar_archivo(void)
 {
 	juego_t *j = juego_crear();
 
@@ -50,7 +51,7 @@ void cargar_archivo()
 	juego_destruir(j);
 }
 
-void seleccionar()
+void seleccionar(void)
 {
 	juego_t *j = juego_crear();
 	pa2m_afirmar(juego_cargar_pokemon(j, ARCHIVO_OK) == TODO_OK,
@@ -76,7 +77,7 @@ void seleccionar()
 	juego_destruir(j);
 }
 
-void jugar()
+void jugar(void)
 {
 	juego_t *j = juego_crear();
 
@@ -172,7 +173,7 @@ void jugar()
 	juego_destruir(j);
 }
 
-int main()
+int main(void)
 {
 	pa2m_nuevo_grupo("------------ PRUEBAS DEL TP1 ------------");
 

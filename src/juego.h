@@ -36,7 +36,7 @@ typedef struct juego juego_t;
 /**
  * Crea un juego. Devuelve NULL en caso de error.
  */
-juego_t *juego_crear();
+juego_t *juego_crear(void);
 
 /**
  * Carga un archivo de pokemon (con el formato del TP1).
